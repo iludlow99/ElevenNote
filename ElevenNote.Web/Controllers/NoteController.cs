@@ -21,11 +21,21 @@ namespace ElevenNote.Web.Controllers
 
     //When running this app we can go to localhost:xxxx/Note/Index. Notice the pattern her for the path. It is the name of the controller (without the word controller), then the name of the method, which is Index
 
-    //Add method here VVVV
         //GET
         public ActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(NoteCreate model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return View(model);
         }
     }
 }
