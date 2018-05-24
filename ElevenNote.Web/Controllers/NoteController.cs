@@ -41,12 +41,18 @@ namespace ElevenNote.Web.Controllers
                 return View(model);
             }
 
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new NoteService(userId);
+            NoteService service = CreateService();
 
             service.CreateNote(model);
 
             return RedirectToAction("Index");
+        }
+
+        private NoteService CreateService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var service = new NoteService(userId);
+            return service;
         }
     }
 }
