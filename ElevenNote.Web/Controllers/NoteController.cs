@@ -26,14 +26,13 @@ namespace ElevenNote.Web.Controllers
 
         //When running this app we can go to localhost:xxxx/Note/Index. Notice the pattern her for the path. It is the name of the controller (without the word controller), then the name of the method, which is Index
 
-        //GET
+        //GET - Create Method
         public ActionResult Create()
         {
             return View();
         }
 
-
-
+        //POST - Create Method
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(NoteCreate model)
@@ -53,6 +52,23 @@ namespace ElevenNote.Web.Controllers
             return View(model);
         }
 
+        //GET - Edit Method
+        public ActionResult Edit(int id)
+        {
+            var service = CreateNoteService();
+            var detail = service.GetNoteById(id);
+            var model =
+                new NoteEdit
+                {
+                    NoteId = detail.NoteId,
+                    Title = detail.Title,
+                    Content = detail.Content
+                };
+
+            return View(model);
+        }
+
+        //POST - Edit Method
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, NoteEdit model)
@@ -77,8 +93,36 @@ namespace ElevenNote.Web.Controllers
             return View();
         }
 
+        //******vvv*******Read over this code. Make sure you understand what's going on in the GET and POST Delete methods******************
 
+        //GET - Delete Method
+        [ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            var svc = CreateNoteService();
+            var model = svc.GetNoteById(id);
 
+            return View(model);
+        }
+
+        //POST - Delete Method
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(int id)
+        {
+            var service = CreateNoteService();
+
+            service.DeleteNote(id);
+
+            TempData["SaveResult"] = "Your note was deleted";
+
+            return RedirectToAction("Index");
+        }
+
+        //*******^^^******Read over this code. Make sure you understand what's going on in the GET and POST Delete methods******************
+
+        //GET - Details Method
         public ActionResult Details(int id)
         {
             var svc = CreateNoteService();
@@ -87,21 +131,7 @@ namespace ElevenNote.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(int id)
-        {
-            var service = CreateNoteService();
-            var detail = service.GetNoteById(id);
-            var model =
-                new NoteEdit
-                {
-                    NoteId = detail.NoteId,
-                    Title = detail.Title,
-                    Content = detail.Content
-                };
-
-            return View(model);
-        }
-
+        //Custom Helper Method
         private NoteService CreateNoteService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
