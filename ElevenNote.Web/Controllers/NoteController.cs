@@ -39,6 +39,7 @@ namespace ElevenNote.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+                        //Custom Helper Method
             var service = CreateNoteService();
 
             if (service.CreateNote(model))
@@ -55,6 +56,7 @@ namespace ElevenNote.Web.Controllers
         //GET - Edit Method
         public ActionResult Edit(int id)
         {
+                        //Custom Helper Method
             var service = CreateNoteService();
             var detail = service.GetNoteById(id);
             var model =
@@ -81,6 +83,7 @@ namespace ElevenNote.Web.Controllers
                 return View(model);
             }
 
+                        //Custom Helper Method
             var service = CreateNoteService();
 
             if (service.UpdateNote(model))
@@ -99,6 +102,7 @@ namespace ElevenNote.Web.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
+                    //Custom Helper Method
             var svc = CreateNoteService();
             var model = svc.GetNoteById(id);
 
@@ -111,6 +115,7 @@ namespace ElevenNote.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeletePost(int id)
         {
+                        //Custom Helper Method
             var service = CreateNoteService();
 
             service.DeleteNote(id);
@@ -125,6 +130,7 @@ namespace ElevenNote.Web.Controllers
         //GET - Details Method
         public ActionResult Details(int id)
         {
+                    //Custom Helper Method
             var svc = CreateNoteService();
             var model = svc.GetNoteById(id);
 
